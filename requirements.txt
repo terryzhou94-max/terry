@@ -1,0 +1,6 @@
+numpy
+pandas
+pyyaml
+# 可选依赖
+geopandas>=0.12
+rasterio>=1.3
