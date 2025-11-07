@@ -1,0 +1,73 @@
+# Configuration for Jialing River basin physical flow forecasting
+# All paths are relative to the repository root unless stated otherwise.
+
+general:
+  basin_name: "Jialing River"
+  time_step: "D"  # daily
+  start_date: "2000-01-01"
+  end_date: "2020-12-31"
+  output_directory: "outputs"
+  cache_directory: "cache"
+  n_workers: 4
+
+data_sources:
+  dem:
+    path: "data/geospatial/jialing_dem.tif"
+    crs: "EPSG:4326"
+    description: "Digital elevation model resampled to 90 m"
+  slope:
+    path: "data/geospatial/jialing_slope.tif"
+    description: "Slope derived from DEM"
+  soil:
+    path: "data/attributes/jialing_soils.csv"
+    key_column_aliases: ["soil_id", "soil_code"]
+    texture_column_aliases: ["texture", "soil_texture"]
+  land_use:
+    path: "data/attributes/jialing_landuse.csv"
+    key_column_aliases: ["land_use", "lu_code"]
+    fraction_column_aliases: ["fraction", "area_fraction"]
+  subbasins:
+    path: "data/arcswat/jialing_subbasins.csv"
+    id_aliases: ["subbasin", "sub_id", "hru"]
+    downstream_aliases: ["ds_id", "downstream"]
+    area_aliases: ["area", "sub_area_sqkm"]
+    elevation_aliases: ["elev", "mean_elev"]
+    latitude_aliases: ["lat", "latitude"]
+    longitude_aliases: ["lon", "longitude"]
+    slope_aliases: ["slope", "avg_slope"]
+  discharge:
+    path: "data/hydro/jialing_discharge.csv"
+    station_aliases: ["station", "gauge", "site"]
+    datetime_aliases: ["date", "datetime", "time"]
+    flow_aliases: ["discharge", "flow", "q", "qobs"]
+    latitude_aliases: ["lat", "latitude"]
+    longitude_aliases: ["lon", "longitude"]
+  meteorological_forcing:
+    path: "data/climate/jialing_forcing.csv"
+    datetime_aliases: ["date", "datetime", "time"]
+    precipitation_aliases: ["precip", "ppt", "rain"]
+    min_temp_aliases: ["tmin", "temp_min", "t_min"]
+    max_temp_aliases: ["tmax", "temp_max", "t_max"]
+    wind_speed_aliases: ["wind", "wind_speed"]
+    solar_radiation_aliases: ["rs", "solar", "radiation"]
+    humidity_aliases: ["rh", "humidity", "relative_humidity"]
+  pet:
+    method: "hargreaves"  # or "penman_monteith"
+    output_path: "cache/pet.csv"
+
+subbasin_parameter_bounds:
+  storage_max: [10.0, 500.0]
+  baseflow_coefficient: [0.01, 0.8]
+  quickflow_coefficient: [0.1, 2.0]
+  percolation_rate: [0.001, 5.0]
+  soil_moisture_capacity: [5.0, 300.0]
+
+calibration:
+  objective: "kge"  # "nse" or "kge"
+  max_iterations: 200
+  population_size: 30
+  convergence_tolerance: 1.0e-4
+  random_seed: 42
+  validation_split: 0.2
+  progress_update_interval: 5
+  use_multiprocessing: true
