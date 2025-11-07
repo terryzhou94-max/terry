@@ -1,0 +1,78 @@
+# Example configuration for the Jialing River forecasting workflow.
+dem:
+  path: data/dem.tif
+  time_field: null
+slope:
+  path: data/slope.tif
+soil:
+  path: data/soil.shp
+meteorology:
+  path: data/meteorology.csv
+  time_field: time
+  metadata:
+    time_field: time                # 时间字段
+    temp_max_field: tmax            # 日最高气温 (°C)
+    temp_min_field: tmin            # 日最低气温 (°C)
+    radiation_field: rs             # 净辐射 (MJ m-2 day-1)
+    wind_field: wind                # 2 m风速 (m s-1)
+    humidity_field: rh              # 实际水汽压 (kPa)，如仅有相对湿度需换算
+    precip_field: precip            # 降水量 (mm)
+discharge:
+  path: data/discharge.csv
+  time_field: time
+  metadata:
+    subbasin_1: q1
+    subbasin_2: q2
+    subbasin_3: q3
+    subbasin_4: q4
+subbasins:
+  subbasin_1:
+    dataset:
+      path: data/subbasin_1.csv
+      id_field: id
+      value_fields: [landuse, soil]
+    area_field: area
+    elevation_field: elevation
+    slope_field: slope
+    lat_field: lat
+    lon_field: lon
+    upstream_field: upstream
+    downstream_field: downstream
+  subbasin_2:
+    dataset:
+      path: data/subbasin_2.csv
+      id_field: id
+      value_fields: [landuse, soil]
+    area_field: area
+    elevation_field: elevation
+    slope_field: slope
+    lat_field: lat
+    lon_field: lon
+    upstream_field: upstream
+    downstream_field: downstream
+  subbasin_3:
+    dataset:
+      path: data/subbasin_3.csv
+      id_field: id
+      value_fields: [landuse, soil]
+    area_field: area
+    elevation_field: elevation
+    slope_field: slope
+    lat_field: lat
+    lon_field: lon
+    upstream_field: upstream
+    downstream_field: downstream
+  subbasin_4:
+    dataset:
+      path: data/subbasin_4.csv
+      id_field: id
+      value_fields: [landuse, soil]
+    area_field: area
+    elevation_field: elevation
+    slope_field: slope
+    lat_field: lat
+    lon_field: lon
+    upstream_field: upstream
+    downstream_field: downstream
+output_dir: outputs
+
